@@ -10,11 +10,17 @@ export interface Rover {
 
   export function move(rover: Rover, command: string): Rover {
     if (command === 'M') {
-      if (rover.direction === 'N') {
-        return { ...rover, y: rover.y + 1 };
-      } else if (rover.direction === 'E') {
-        return { ...rover, x: rover.x + 1 };
+      switch (rover.direction){
+        case 'N':
+          return { ...rover, y: rover.y + 1 };
+        case 'E':
+          return { ...rover, x: rover.x + 1 };
+        case 'S':
+          return { ...rover, y: rover.y - 1 };
+        case 'W':
+          return { ...rover, x: rover.x - 1 };
       }
     }
+
     return rover;
   }
