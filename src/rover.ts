@@ -18,20 +18,29 @@ export function createRover(x: number, y: number, direction: string): Rover {
   return { x, y, direction };
 }
 
-export function move(rover: Rover, command: string): Rover {
+export function move(rover: Rover, command: string, plateau: Plateau): Rover {
+  let newX = rover.x;
+  let newY = rover.y;
   if (command === 'M') {
+    
     switch (rover.direction){
       case 'N':
-        return { ...rover, y: rover.y + 1 };
-      case 'E':
-        return { ...rover, x: rover.x + 1 };
-      case 'S':
-        return { ...rover, y: rover.y - 1 };
-      case 'W':
-        return { ...rover, x: rover.x - 1 };
+      newY = rover.y + 1;
+      break;
+    case 'E':
+      newX = rover.x + 1;
+      break;
+    case 'S':
+      newY = rover.y - 1;
+      break;
+    case 'W':
+      newX = rover.x - 1;
+      break;
     }
+    if (newX >= 0 && newX < plateau.width && newY >= 0 && newY < plateau.depth) {
+      return { ...rover, x: newX, y: newY };
+    };
   }
-
   return rover;
-}
   
+} 
