@@ -1,5 +1,6 @@
 import { createRover,
          move,
+         createPlateau,
                  } from '../src/rover';
 
 describe('Rover', () => {
@@ -39,5 +40,10 @@ describe('Rover', () => {
   });
 });
 
-
-
+describe('Plateau', () => {
+    it('Plateau should be initialized with a width and depth', () => {
+      let plateau = createPlateau(5,5);
+      expect(plateau.width).toBe(6);
+      expect(plateau.depth).toBe(6);
+    });
+});
