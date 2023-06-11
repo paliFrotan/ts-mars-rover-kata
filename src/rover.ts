@@ -77,3 +77,18 @@ export function turnRight(rover: Rover, command: string): Rover {
   }
   return rover;
 } 
+
+export function instructionsRover(rover: Rover, plateau: Plateau, instructions: string):string {
+  [...instructions].forEach((value: string) => {
+    switch(value){
+      case "L":
+        return rover = turnLeft(rover, value);
+      case "R":
+        return rover = turnRight(rover, value);
+      case "M":
+        return rover = move(rover, value, plateau);
+    }
+
+  });
+  return ""+rover.x+" "+rover.y+" "+rover.direction+"";
+}

@@ -3,7 +3,30 @@ import { createRover,
          createPlateau,
          turnLeft,
          turnRight,
+         instructionsRover,
                  } from './rover';
+
+
+describe('Plateau', () => {
+  it('Plateau should be initialized with a width and depth', () => {
+    let plateau = createPlateau(5,5);
+    expect(plateau.width).toBe(6);
+    expect(plateau.depth).toBe(6);
+  });
+});
+
+describe('Check Move is within Plateau', () => {
+  it('Cancel move if outside Plateau', () => {
+    let plateau = createPlateau(5,5);
+    expect(plateau.width).toBe(6);
+    expect(plateau.depth).toBe(6);
+    let rover = createRover(0, 0, 'W');
+    rover = move(rover, 'M', plateau);
+    expect(rover.x).toBe(0);
+    expect(rover.y).toBe(0);
+    expect(rover.direction).toBe('W');
+  });
+});
 
 describe('Rover', () => {
   it('should be initialized with a starting position and direction', () => {
@@ -98,22 +121,15 @@ describe('Rover', () => {
 
 });
 
-describe('Plateau', () => {
-    it('Plateau should be initialized with a width and depth', () => {
-      let plateau = createPlateau(5,5);
-      expect(plateau.width).toBe(6);
-      expect(plateau.depth).toBe(6);
-    });
-});
-describe('Check Move is within Plateau', () => {
-  it('Cancel move if outside Plateau', () => {
+describe('Input to 2 rovers and their output', () => {
+  it('test for plateau 6x6 and 2 rover moves', () => {
     let plateau = createPlateau(5,5);
-    expect(plateau.width).toBe(6);
-    expect(plateau.depth).toBe(6);
-    let rover = createRover(0, 0, 'W');
-    rover = move(rover, 'M', plateau);
-    expect(rover.x).toBe(0);
-    expect(rover.y).toBe(0);
-    expect(rover.direction).toBe('W');
+    let rover1 = createRover(1,2,'N');
+    let rover2 = createRover(3,3, 'E');
+    let instructionsRover1 = "LMLMLMLMM"
+    let instructionsRover2 = "MMRMMRMRRM"
+    expect(instructionsRover(rover1, plateau, instructionsRover1)).toBe("1 3 N");
+    expect(instructionsRover(rover2, plateau, instructionsRover2)).toBe("5 1 E");
   });
 });
+
