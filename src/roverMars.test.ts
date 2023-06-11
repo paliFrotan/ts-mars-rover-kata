@@ -1,7 +1,9 @@
 import { createRover,
          move,
          createPlateau,
-                 } from '../src/rover';
+         turnLeft,
+         turnRight,
+                 } from './rover';
 
 describe('Rover', () => {
   it('should be initialized with a starting position and direction', () => {
@@ -39,6 +41,61 @@ describe('Rover', () => {
     expect(rover.x).toBe(4);
     expect(rover.y).toBe(5);
   });
+
+  it('should turn Left if instructed', () => {
+    let rover = createRover(0, 0, 'N');
+    rover = turnLeft(rover, 'L');
+    expect(rover.x).toBe(0);
+    expect(rover.y).toBe(0);
+    expect(rover.direction).toBe('W');
+
+    rover = createRover(3, 4, 'E');
+    rover = turnLeft(rover, 'L');
+    expect(rover.x).toBe(3);
+    expect(rover.y).toBe(4);
+    expect(rover.direction).toBe('N');
+
+    rover = createRover(5, 6, 'S');
+    rover = turnLeft(rover, 'L');
+    expect(rover.x).toBe(5);
+    expect(rover.y).toBe(6);
+    expect(rover.direction).toBe('E');
+
+    rover = createRover(6, 6, 'W');
+    rover = turnLeft(rover, 'L');
+    expect(rover.x).toBe(6);
+    expect(rover.y).toBe(6);
+    expect(rover.direction).toBe('S');
+
+  });
+
+  it('should turn Right if instructed', () => {
+    let rover = createRover(0, 0, 'N');
+    rover = turnRight(rover, 'R');
+    expect(rover.x).toBe(0);
+    expect(rover.y).toBe(0);
+    expect(rover.direction).toBe('E');
+
+    rover = createRover(3, 4, 'E');
+    rover = turnRight(rover, 'R');
+    expect(rover.x).toBe(3);
+    expect(rover.y).toBe(4);
+    expect(rover.direction).toBe('S');
+
+    rover = createRover(5, 6, 'S');
+    rover = turnRight(rover, 'R');
+    expect(rover.x).toBe(5);
+    expect(rover.y).toBe(6);
+    expect(rover.direction).toBe('W');
+
+    rover = createRover(6, 6, 'W');
+    rover = turnRight(rover, 'R');
+    expect(rover.x).toBe(6);
+    expect(rover.y).toBe(6);
+    expect(rover.direction).toBe('N');
+
+  });
+
 });
 
 describe('Plateau', () => {
@@ -57,5 +114,6 @@ describe('Check Move is within Plateau', () => {
     rover = move(rover, 'M', plateau);
     expect(rover.x).toBe(0);
     expect(rover.y).toBe(0);
+    expect(rover.direction).toBe('W');
   });
 });
