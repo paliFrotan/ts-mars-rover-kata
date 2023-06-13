@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc  --project tsconfig.build.json",
-    "start": "nodemon index.ts",
+    "start": "nodemon roverMars.test",
     "test": "jest --watch"
   },
   "keywords": [],
