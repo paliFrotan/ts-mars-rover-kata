@@ -2,10 +2,10 @@
   "name": "ts-mars-rover-kata",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "build": "tsc  --project tsconfig.build.json",
-    "start": "nodemon roverMars.test",
+    "start": "nodemon src/roverMars.test.ts",
     "test": "jest --watch"
   },
   "keywords": [],
