@@ -110,7 +110,6 @@ export function instructionsRover(rover: Rover, plateau: Plateau, instructions: 
   let result: Rover | ErrorMessage = rover;
   for (const value of instructions) {
     if ('userMessage' in result) {
-      // An error message has been returned, so we stop processing further instructions
       break;
     }
     switch (value) {
@@ -129,11 +128,8 @@ export function instructionsRover(rover: Rover, plateau: Plateau, instructions: 
     }
   }
   if ('index' in result && 'userMessage' in result) {
-    // An error message has been returned
     return result;
   } else {
-    // No error message has been returned
     return `${result.x} ${result.y} ${result.direction}`;
   }
 }
-

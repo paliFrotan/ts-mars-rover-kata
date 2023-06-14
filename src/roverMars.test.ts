@@ -8,67 +8,52 @@ import { createRover,
                  } from './rover';
 
 
-describe('Plateau', () => {
-  it('Plateau should be initialized with a width and depth', () => {
-    let plateau = createPlateau("5 5");
-    if ('width' in plateau) {
-      // plateau is of type Plateau
-      expect(plateau.width).toBe(6);
-      expect(plateau.depth).toBe(6);
-    } else {
-      // plateau is of type ErrorMessage
-      expect(plateau.userMessage).toBe({ index: 1, userMessage :'Invalid sizeString format. Expected format: "x y" where x and y are numbers.'});
-    }
+describe('createPlateau', () => {
+  it('should create a Plateau object with the correct width and depth', () => {
+    const result = createPlateau('5 5');
+    expect(result).toEqual({ width: 6, depth: 6 });
+  });
 
-    
+  it('should return an error message if the input string is not in the correct format', () => {
+    const result = createPlateau('55');
+    expect(result).toEqual({ index: 1, userMessage: 'Invalid sizeString format. Expected format: "x y" where x and y are numbers.' });
   });
 });
 
 describe('Check Move is within Plateau', () => {
   it('Cancel move if outside Plateau', () => {
-    let plateau = createPlateau("5 5");
-    if ('width' in plateau) {
-      // plateau is of type Plateau
-      expect(plateau.width).toBe(6);
-      expect(plateau.depth).toBe(6);
-      let rover = createRover('0 0 W');
-      if('x' in rover){
-        rover = move(rover, 'M', plateau);
-        if('x' in rover){
-          expect(rover.x).toBe(0);
-          expect(rover.y).toBe(0);
-          expect(rover.direction).toBe('W');
-        }
-      }
-    } else {
-      // plateau is of type ErrorMessage
-      expect(plateau.userMessage).toBe({ index: 1, userMessage :'Invalid sizeString format. Expected format: "x y" where x and y are numbers.'});
-    }
+    const plateau = { width: 6, depth: 6 };
+    let rover = { x: 0, y: 0, direction: 'W' };
+    let resultRover = move(rover, 'M', plateau);
+          
+    expect(resultRover).toEqual({index:3, userMessage:"Rover@(0,0) not moved since out of bounds of plateau."});
     
   });
 });
 
-describe('Rover', () => {
+describe('createRover', () => {
   it('should be initialized with a starting position and direction', () => {
     let rover = createRover('0 0 N');
-    if ('x' in rover){
-      expect(rover.x).toBe(0);
-      expect(rover.y).toBe(0);
-      expect(rover.direction).toBe('N');
-    }
+    expect(rover).toEqual({ x: 0, y: 0, direction: 'N' }); 
+      
     rover = createRover('5 5 W');
-    if ('x' in rover){
-      expect(rover.x).toBe(5);
-      expect(rover.y).toBe(5);
-      expect(rover.direction).toBe('W');
-    }
-
+    expect(rover).toEqual({ x: 5, y: 5, direction: 'W' }); 
   });
+        
+  it('should create a Rover object with the correct x, y, and direction values', () => {
+    const result = createRover('1 2 N');
+    expect(result).toEqual({ x: 1, y: 2, direction: 'N' });
+  });
+
+  it('should return an error message if the input string is not in the correct format', () => {
+    const result = createRover('12N');
+    expect(result).toEqual({ index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' });
+  });
+  
 
   it('should move forward in the direction it is facing', () => {
     let plateau = createPlateau("5 5");
     if ('width' in plateau) {
-      // plateau is of type Plateau
       expect(plateau.width).toBe(6);
       expect(plateau.depth).toBe(6);
       let rover = createRover('0 0 N');
@@ -87,7 +72,6 @@ describe('Rover', () => {
           expect(rover.y).toBe(0);
         }
       }
-      
 
       rover = createRover('5 5 S');
       if ('x' in rover){
@@ -106,9 +90,7 @@ describe('Rover', () => {
           expect(rover.y).toBe(5);
         }
       }
-
     } else {
-      // plateau is of type ErrorMessage
       expect(plateau.userMessage).toBe({ index: 1, userMessage :'Invalid sizeString format. Expected format: "x y" where x and y are numbers.'});
     }
     
@@ -177,7 +159,22 @@ describe('Rover', () => {
       expect(rover.direction).toBe('N');
     }
   });
+});
 
+describe('move', () => {
+  it('should move the rover one unit forward in its current direction if the command is "M"', () => {
+    const rover = { x: 1, y: 2, direction: 'N' };
+    const plateau = { width: 6, depth: 6 };
+    const result = move(rover, 'M', plateau);
+    expect(result).toEqual({ x: 1, y: 3, direction: 'N' });
+  });
+
+  it('should return an error message if the new position is out of bounds', () => {
+    const rover = { x: 5, y: 5, direction: 'N' };
+    const plateau = { width: 6, depth: 6 };
+    const result = move(rover, 'M', plateau);
+    expect(result).toEqual({ index:3 , userMessage:'Rover@(5,5) not moved since out of bounds of plateau.' });
+  });
 });
 
 describe('Input to 2 rovers and their output', () => {
@@ -212,68 +209,16 @@ describe('Input to 2 rovers and their output', () => {
         expect(rover3.userMessage).toBe('Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".');
       }
     } else {
-      // plateau is of type ErrorMessage
       expect(plateau.userMessage).toBe('Invalid sizeString format. Expected format: "x y" where x and y are numbers.');
     };
-
   });
 });
 
-describe('createPlateau', () => {
-  it('should create a Plateau object with the correct width and depth', () => {
-    const result = createPlateau('5 5');
-    expect(result).toEqual({ width: 6, depth: 6 });
-  });
 
-  it('should return an error message if the input string is not in the correct format', () => {
-    const result = createPlateau('55');
-    expect(result).toEqual({ index: 1, userMessage: 'Invalid sizeString format. Expected format: "x y" where x and y are numbers.' });
-  });
-});
 
-describe('createRover', () => {
-  it('should create a Rover object with the correct x, y, and direction values', () => {
-    const result = createRover('1 2 N');
-    expect(result).toEqual({ x: 1, y: 2, direction: 'N' });
-  });
 
-  it('should return an error message if the input string is not in the correct format', () => {
-    const result = createRover('12N');
-    expect(result).toEqual({ index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' });
-  });
-});
 
-describe('isRoverCollidingWithPoints', () => {
-  it('should return true if the rover collides with any of the points in the array', () => {
-    const rover = { x: 1, y: 2, direction: 'N' };
-    const points = [{ posX: 1, posY: 2 }];
-    const result = isRoverCollidingWithPoints(rover, points);
-    expect(result).toBe(true);
-  });
 
-  it('should return false if the rover does not collide with any of the points in the array', () => {
-    const rover = { x: 1, y: 2, direction: 'N' };
-    const points = [{ posX: 3, posY: 4 }];
-    const result = isRoverCollidingWithPoints(rover, points);
-    expect(result).toBe(false);
-  });
-});
-
-describe('move', () => {
-  it('should move the rover one unit forward in its current direction if the command is "M"', () => {
-    const rover = { x: 1, y: 2, direction: 'N' };
-    const plateau = { width: 6, depth: 6 };
-    const result = move(rover, 'M', plateau);
-    expect(result).toEqual({ x: 1, y: 3, direction: 'N' });
-  });
-
-  it('should return an error message if the new position is out of bounds', () => {
-    const rover = { x: 5, y: 5, direction: 'N' };
-    const plateau = { width: 6, depth: 6 };
-    const result = move(rover, 'M', plateau);
-    expect(result).toEqual({ index:3 , userMessage:'Rover@(5,5) not moved since out of bounds of plateau.' });
-  });
-});
 
 describe('isRoverCollidingWithPoints', () => {
   it('should return true if the rover collides with any of the points in the array', () => {
