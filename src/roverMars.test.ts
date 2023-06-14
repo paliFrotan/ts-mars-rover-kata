@@ -214,12 +214,6 @@ describe('Input to 2 rovers and their output', () => {
   });
 });
 
-
-
-
-
-
-
 describe('isRoverCollidingWithPoints', () => {
   it('should return true if the rover collides with any of the points in the array', () => {
     const rover = { x: 1, y: 2, direction: 'N' };
