@@ -1,18 +1,22 @@
-# TypeScript project with Tests
+# Mars Rover Kata
 
-This repository can be used as a template for creating a TypeScript project using Jest for testing.
+This project is an implementation of the Mars Rover Kata in TypeScript using test-driven development (TDD). It tests all functionality of the rovers created and moved via instructions passed to them.
 
-## Instructions
+## Installation
 
-- Click the "Use this template" button
+To install this project, clone the repository and run `npm install` to install the dependencies.
 
-- Click "Create new repository"
+## Testing
 
-- Give your repository a name and click "Create repository from template"
+This project uses TDD to ensure that the code is correct and maintainable. To run the tests for this project, use the `npm test` command. This will run all of the tests for the project and report their results.
 
-- Clone down your new repository to your computer
 
-- Navigate to the directory on your command line
+## Features
 
-- Run `npm install` followed by `npm test` to run the tests
+This project includes several features, such as collision detection between rovers and the ability to enter multiple rovers. 
 
+
+
+## Issues
+
+None encountered so far, no pesky bugs!
