@@ -30,15 +30,17 @@ export function createPlateau(sizeString: string): Plateau | ErrorMessage {
   return { width, depth };
 }
 
-export function createRover(roverString: string): Rover | ErrorMessage {
+export function createRover(roverString: string, plateau: Plateau): Rover | ErrorMessage {
   if (roverString.length !== 5 || isNaN(Number(roverString[0])) || isNaN(Number(roverString[2])) || !['N', 'E', 'S', 'W'].includes(roverString[4])) {
     return { index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' };
   }
-
+  
   let x = Number(roverString[0]);
   let y = Number(roverString[2]);
   let direction = roverString[4];
-
+  
+  if (x >= plateau.width || y >= plateau.depth)
+    return { index: 5, userMessage: 'Invalid rover initial position. Outside bounds of plateau.' };
   return { x, y, direction };
 }
 
