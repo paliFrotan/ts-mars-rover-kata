@@ -9,6 +9,7 @@ import { createRover,
   
 import * as readline from 'readline';
 
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -19,7 +20,7 @@ const rl = readline.createInterface({
 
 
 let collisionPoints: CollisionPoints[] = [{ posX: -1, posY: -1}];
-
+console.clear();
 rl.question('Enter plateau size: ', (answer) => {
     
     let ans = createPlateau(answer);
