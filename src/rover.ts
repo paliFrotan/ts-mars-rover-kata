@@ -30,7 +30,7 @@ export function createPlateau(sizeString: string): Plateau | ErrorMessage {
   return { width, depth };
 }
 
-export function createRover(roverString: string, plateau: Plateau): Rover | ErrorMessage {
+export function createRover(roverString: string, plateau: Plateau, points: CollisionPoints[]): Rover | ErrorMessage {
   if (roverString.length !== 5 || isNaN(Number(roverString[0])) || isNaN(Number(roverString[2])) || !['N', 'E', 'S', 'W'].includes(roverString[4])) {
     return { index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' };
   }
@@ -39,9 +39,12 @@ export function createRover(roverString: string, plateau: Plateau): Rover | Erro
   let y = Number(roverString[2]);
   let direction = roverString[4];
   
-  if (x >= plateau.width || y >= plateau.depth)
+  if (x >= plateau.width || y >= plateau.depth )
     return { index: 5, userMessage: 'Invalid rover initial position. Outside bounds of plateau.' };
+  if (isRoverCollidingWithPoints({x ,y, direction}, points))
+    return { index: 6, userMessage: `Collision detected for placement of rover.` }
   return { x, y, direction };
+  
 }
 
 export function isRoverCollidingWithPoints(rover: Rover, points: CollisionPoints[]): boolean {

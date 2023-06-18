@@ -50,7 +50,7 @@ function start() {
         function addRover(ans: Plateau | ErrorMessage) {
             rl.question('Enter rover starting position and direction: ', (roverInput) => {
                 if (!('index' in ans)){
-                    let rover = createRover(roverInput, ans);
+                    let rover = createRover(roverInput, ans, collisionPoints);
                 
                     if ('index' in rover) {
                         console.log(rover.userMessage);
