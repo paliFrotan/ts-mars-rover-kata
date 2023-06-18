@@ -113,6 +113,9 @@ export function turnRight(rover: Rover, command: string): Rover {
 
 export function instructionsRover(rover: Rover, plateau: Plateau, instructions: string, points: CollisionPoints[]): string | ErrorMessage {
   let result: Rover | ErrorMessage = rover;
+  if(!['L', 'M', 'R'].includes(instructions)){
+    result = { index: 7, userMessage: 'Instruction(s) does not contain one of M, L or R abandoned.'}
+  }; 
   for (const value of instructions) {
     if ('userMessage' in result) {
       break;
