@@ -52,6 +52,8 @@ export function isRoverCollidingWithPoints(rover: Rover, points: CollisionPoints
 }
 
 export function move(rover: Rover, command: string, plateau: Plateau): Rover | ErrorMessage {
+  
+
   let newX = rover.x;
   let newY = rover.y;
   if (command === 'M') {
@@ -113,9 +115,9 @@ export function turnRight(rover: Rover, command: string): Rover {
 
 export function instructionsRover(rover: Rover, plateau: Plateau, instructions: string, points: CollisionPoints[]): string | ErrorMessage {
   let result: Rover | ErrorMessage = rover;
-  if(!['L', 'M', 'R'].includes(instructions)){
+  if(!instructions.split('').every(char => ['L', 'M', 'R'].includes(char))){
     result = { index: 7, userMessage: 'Instruction(s) does not contain one of M, L or R abandoned.'}
-  }; 
+  };  
   for (const value of instructions) {
     if ('userMessage' in result) {
       break;
@@ -130,7 +132,8 @@ export function instructionsRover(rover: Rover, plateau: Plateau, instructions: 
       case 'M':
         result = move(result as Rover, value, plateau);
         if ('x' in result && isRoverCollidingWithPoints(result as Rover, points)) {
-          result = { index: 4, userMessage: `Collision detected between rover@(${result.x},${result.y}) and collision point.` };
+          //points.push({ posX: result.x, posY: result.y });
+          result = { index: 4, userMessage: `Collision detected between rovers@(${result.x},${result.y}).` };
           break;
         }
     }

@@ -18,17 +18,17 @@ const rl = readline.createInterface({
  
 
 
-let collisionPoints: CollisionPoints[] = [{ posX: -1, posY: -1}];
+let collisionPoints: CollisionPoints[] = [];
 let ans: void|ErrorMessage|Plateau;
-let ansR: void|string;
 let rover: void|ErrorMessage|Rover;
+let errorMessage: ErrorMessage | null = null;
 
 function start() {
     console.clear();
     console.log('\x1b[38;5;206m' + "----------------------------------------------------------" + '\x1b[0m');
     console.log('\x1b[38;5;206m' + "|*" + '\x1b[0m' + "                Mars Rover Mission                    " + '\x1b[38;5;206m' + "*|" + '\x1b[0m');
     console.log('\x1b[38;5;206m' + "----------------------------------------------------------" + '\x1b[0m');
-    
+    collisionPoints = [{ posX: -1, posY: -1}];
     areaPlateau();
 }
     
