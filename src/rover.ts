@@ -30,16 +30,21 @@ export function createPlateau(sizeString: string): Plateau | ErrorMessage {
   return { width, depth };
 }
 
-export function createRover(roverString: string): Rover | ErrorMessage {
+export function createRover(roverString: string, plateau: Plateau, points: CollisionPoints[]): Rover | ErrorMessage {
   if (roverString.length !== 5 || isNaN(Number(roverString[0])) || isNaN(Number(roverString[2])) || !['N', 'E', 'S', 'W'].includes(roverString[4])) {
     return { index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' };
   }
-
+  
   let x = Number(roverString[0]);
   let y = Number(roverString[2]);
   let direction = roverString[4];
-
+  
+  if (x >= plateau.width || y >= plateau.depth )
+    return { index: 5, userMessage: 'Invalid rover initial position. Outside bounds of plateau.' };
+  if (isRoverCollidingWithPoints({x ,y, direction}, points))
+    return { index: 6, userMessage: `Collision detected for placement of rover.` }
   return { x, y, direction };
+  
 }
 
 export function isRoverCollidingWithPoints(rover: Rover, points: CollisionPoints[]): boolean {
@@ -47,6 +52,8 @@ export function isRoverCollidingWithPoints(rover: Rover, points: CollisionPoints
 }
 
 export function move(rover: Rover, command: string, plateau: Plateau): Rover | ErrorMessage {
+  
+
   let newX = rover.x;
   let newY = rover.y;
   if (command === 'M') {
@@ -108,6 +115,9 @@ export function turnRight(rover: Rover, command: string): Rover {
 
 export function instructionsRover(rover: Rover, plateau: Plateau, instructions: string, points: CollisionPoints[]): string | ErrorMessage {
   let result: Rover | ErrorMessage = rover;
+  if(!instructions.split('').every(char => ['L', 'M', 'R'].includes(char))){
+    result = { index: 7, userMessage: 'Instruction(s) does not contain one of M, L or R abandoned.'}
+  };  
   for (const value of instructions) {
     if ('userMessage' in result) {
       break;
@@ -122,7 +132,8 @@ export function instructionsRover(rover: Rover, plateau: Plateau, instructions: 
       case 'M':
         result = move(result as Rover, value, plateau);
         if ('x' in result && isRoverCollidingWithPoints(result as Rover, points)) {
-          result = { index: 4, userMessage: `Collision detected between rover@(${result.x},${result.y}) and collision point.` };
+          //points.push({ posX: result.x, posY: result.y });
+          result = { index: 4, userMessage: `Collision detected between rovers@(${result.x},${result.y}).` };
           break;
         }
     }

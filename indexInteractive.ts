@@ -24,7 +24,7 @@ import { createRover,
             function displayGrid() {
                 // Display the grid
                 for (let i = 0; i < rows; i++) {
-                    let row = '';
+                    let row = ' ';
                     for (let j = 0; j < cols; j++) {
                         // Check if there is a rover at this position
                         const rover = rovers.find(r => r.x === j && r.y === i);
