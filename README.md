@@ -1,6 +1,7 @@
 # Mars Rover Kata
 
 This project is an implementation of the Mars Rover Kata in TypeScript. It allows users to enter input via the console to create a plateau, add rovers, and issue movement instructions to the rovers.
+This project is an implementation of the Mars Rover Kata in TypeScript. It allows users to enter input via the console to create a plateau, add rovers, and issue movement instructions to the rovers.
 
 ## Installation
 
@@ -11,7 +12,9 @@ To install this project, clone the repository and run `npm install` to install t
 To run this project, use the `npm start` command. This will start the program and prompt you for input.
 
 Enter the size of the plateau as two numbers separated by a space, such as `5 5`. Then enter the starting position and direction of a rover as two numbers and a letter separated by spaces, such as `1 2 N`. Finally, enter the movement instructions for the rover as a string of letters, such as `LMLMLMLMM`.
+Enter the size of the plateau as two numbers separated by a space, such as `5 5`. Then enter the starting position and direction of a rover as two numbers and a letter separated by spaces, such as `1 2 N`. Finally, enter the movement instructions for the rover as a string of letters, such as `LMLMLMLMM`.
 
+The program will process your input and output the final position and direction of the rover. You can enter additional rovers by following the same steps.
 The program will process your input and output the final position and direction of the rover. You can enter additional rovers by following the same steps.
 
 ## Features

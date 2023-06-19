@@ -33,30 +33,37 @@ describe('Check Move is within Plateau', () => {
 
 describe('createRover', () => {
   it('should be initialized with a starting position and direction', () => {
-    let rover = createRover('0 0 N');
+    const plateau = { width: 6, depth: 6 };
+    let collisionPoints = [{ posX: -1, posY: -1 }];
+    let rover = createRover('0 0 N', plateau, collisionPoints);
     expect(rover).toEqual({ x: 0, y: 0, direction: 'N' }); 
       
-    rover = createRover('5 5 W');
+    rover = createRover('5 5 W', plateau, collisionPoints);
     expect(rover).toEqual({ x: 5, y: 5, direction: 'W' }); 
   });
         
   it('should create a Rover object with the correct x, y, and direction values', () => {
-    const result = createRover('1 2 N');
+    const plateau = { width: 6, depth: 6 };
+    let collisionPoints = [{ posX: -1, posY: -1 }];
+    const result = createRover('1 2 N', plateau, collisionPoints);
     expect(result).toEqual({ x: 1, y: 2, direction: 'N' });
   });
 
   it('should return an error message if the input string is not in the correct format', () => {
-    const result = createRover('12N');
+    const plateau = { width: 6, depth: 6 };
+    let collisionPoints = [{ posX: -1, posY: -1 }];
+    const result = createRover('12N', plateau, collisionPoints);
     expect(result).toEqual({ index: 2, userMessage: 'Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".' });
   });
   
 
   it('should move forward in the direction it is facing', () => {
     let plateau = createPlateau("5 5");
+    let collisionPoints = [{ posX: -1, posY: -1 }];
     if ('width' in plateau) {
       expect(plateau.width).toBe(6);
       expect(plateau.depth).toBe(6);
-      let rover = createRover('0 0 N');
+      let rover = createRover('0 0 N', plateau, collisionPoints);
       if ('x' in rover){
         rover = move(rover, 'M', plateau);
         if ('x' in rover){
@@ -64,7 +71,7 @@ describe('createRover', () => {
           expect(rover.y).toBe(1);
         }
       }
-      rover = createRover('0 0 E');
+      rover = createRover('0 0 E', plateau, collisionPoints);
       if ('x' in rover){
         rover = move(rover, 'M', plateau);
         if ('x' in rover){
@@ -73,7 +80,7 @@ describe('createRover', () => {
         }
       }
 
-      rover = createRover('5 5 S');
+      rover = createRover('5 5 S', plateau, collisionPoints);
       if ('x' in rover){
         rover = move(rover, 'M', plateau);
         if ('x' in rover){
@@ -82,7 +89,7 @@ describe('createRover', () => {
         }
       }
 
-      rover = createRover('5 5 W');
+      rover = createRover('5 5 W', plateau, collisionPoints);
       if ('x' in rover){
         rover = move(rover, 'M', plateau);
         if ('x' in rover){
@@ -97,14 +104,16 @@ describe('createRover', () => {
   });
 
   it('should turn Left if instructed', () => {
-    let rover = createRover('0 0 N');
+    const plateau = { width: 6, depth: 6 };
+    let collisionPoints = [{ posX: -1, posY: -1 }];
+    let rover = createRover('0 0 N', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnLeft(rover, 'L');
       expect(rover.x).toBe(0);
       expect(rover.y).toBe(0);
       expect(rover.direction).toBe('W');
     }
-    rover = createRover('3 4 E');
+    rover = createRover('3 4 E', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnLeft(rover, 'L');
       expect(rover.x).toBe(3);
@@ -112,7 +121,7 @@ describe('createRover', () => {
       expect(rover.direction).toBe('N');
     }
 
-    rover = createRover('5 6 S');
+    rover = createRover('5 6 S', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnLeft(rover, 'L');
       expect(rover.x).toBe(5);
@@ -120,7 +129,7 @@ describe('createRover', () => {
       expect(rover.direction).toBe('E');
     }
 
-    rover = createRover('6 6 W');
+    rover = createRover('6 6 W', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnLeft(rover, 'L');
       expect(rover.x).toBe(6);
@@ -130,28 +139,30 @@ describe('createRover', () => {
   });
 
   it('should turn Right if instructed', () => {
-    let rover = createRover('0 0 N');
+    const plateau = { width: 6, depth: 6 };
+    let collisionPoints = [{ posX: -1, posY: -1 }];
+    let rover = createRover('0 0 N', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnRight(rover, 'R');
       expect(rover.x).toBe(0);
       expect(rover.y).toBe(0);
       expect(rover.direction).toBe('E');
     }
-    rover = createRover('3 4 E');
+    rover = createRover('3 4 E', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnRight(rover, 'R');
       expect(rover.x).toBe(3);
       expect(rover.y).toBe(4);
       expect(rover.direction).toBe('S');
     }
-    rover = createRover('5 6 S');
+    rover = createRover('5 6 S', plateau, collisionPoints);
     if ('x' in rover) {
       rover = turnRight(rover, 'R');
       expect(rover.x).toBe(5);
       expect(rover.y).toBe(6);
       expect(rover.direction).toBe('W');
     }
-    rover = createRover('6 6 W');
+    rover = createRover('6 6 W', plateau, collisionPoints);
     if ('x' in rover){
       rover = turnRight(rover, 'R');
       expect(rover.x).toBe(6);
@@ -180,12 +191,12 @@ describe('move', () => {
 describe('Input to 2 rovers and their output', () => {
   it('test for plateau 6x6 and 2 rover moves', () => {
     let plateau = createPlateau("5 5");
-    
+    let collisionPoints = [{ posX: -1, posY: -1 }];
     if ('width' in plateau) {
       // plateau is of type Plateau
       expect(plateau.width).toBe(6);
       expect(plateau.depth).toBe(6);
-      let rover1 = createRover('1 2 N');
+      let rover1 = createRover('1 2 N', plateau, collisionPoints);
       if ('x' in rover1){
         let points =[{posX:-1,posY:-1}];
         let execute = instructionsRover(rover1, plateau, "LMLMLMLMM",points);
@@ -193,14 +204,14 @@ describe('Input to 2 rovers and their output', () => {
       } else {
         expect(rover1.userMessage).toBe('Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".');
       }
-      let rover2 = createRover('3 3 E');
+      let rover2 = createRover('3 3 E', plateau, collisionPoints);
       let points =  [{ posX: 1, posY: 2 }];
       if ('x' in rover2){
         expect(instructionsRover(rover2, plateau, "MMRMMRMRRM",points)).toBe("5 1 E");
       } else {
         expect(rover2.userMessage).toBe('Invalid roverString format. Expected format: "x y d" where x and y are numbers and d is one of "N", "E", "S", "W".');
       }
-      let rover3 = createRover('3 4 E');
+      let rover3 = createRover('3 4 E', plateau, collisionPoints);
       points.push({ posX: 5, posY: 1 });
       if ('x' in rover3){
         let execute = instructionsRover(rover3, plateau, "MMMMMMMM",points);
